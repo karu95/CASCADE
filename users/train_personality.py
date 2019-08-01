@@ -47,7 +47,8 @@ print("")
 # ==================================================
 
 print("loading data...", end=' ')
-x = pickle.load(open("mr.p","rb"))
+f = open('mr.p', mode='rb')
+x = pickle.load(f, encoding='latin1')
 revs, W, W2, word_idx_map, vocab = x[0], x[1], x[2], x[3], x[4]
 print("data loaded!")  # Load data
 
@@ -56,13 +57,13 @@ y = np.asarray([revs[i]['Label'] for i in range(len(revs))])
 
 x = []
 for i in range(len(x_text)):
-	x.append([word_idx_map[word] for word in x_text[i].split()])
+    x.append([word_idx_map[word] for word in x_text[i].split()])
 
 for i in range(len(x)):
     if( len(x[i]) < 1000 ):
-    	x[i] = np.append(x[i],np.zeros(1000-len(x[i])))		
+        x[i] = np.append(x[i],np.zeros(1000-len(x[i])))
     elif( len(x[i]) > 1000 ):
-    	x[i] = x[i][0:1000]
+        x[i] = x[i][0:1000]
 x = np.asarray(x)
 
 
@@ -190,8 +191,8 @@ with tf.Graph().as_default():
         for batch in batches:
             x_batch, y_batch = zip(*batch)
             x_batch = np.asarray(x_batch)
-	    y_batch = np.asarray(y_batch)
-	    train_step(x_batch, y_batch)
+            y_batch = np.asarray(y_batch)
+            train_step(x_batch, y_batch)
             current_step = tf.train.global_step(sess, global_step)
             if current_step % FLAGS.evaluate_every == 0:
                 print("\nEvaluation:")

@@ -2,7 +2,7 @@
 import csv
 import gensim
 import numpy as np
-import os 
+import os
 
 input_model_path = "./models/discourse_model"
 output_folder = "./discourse_features"
